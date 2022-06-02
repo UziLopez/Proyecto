@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html  lang="es">
+<head>
+    <title>Primer Ejemplo</title>
+    <meta charset="UTF-8">
+    <script>
+        function validaPassword(){
+            var pass1 =document.getElementById('pwd').value; 
+            var pass2 =document.getElementById('pwd2').value;
+            
+            if(pass1 != pass2 && pass1!="" && pass2!=""){
+                document.getElementById('pwd2').value="";
+                document.getElementById('pwd').value="";
+                //alert('Las contraseñas no coinciden');
+                document.getElementById('pwd').focus();
+                document.getElementById('errorPwd').innerHTML= "ERROR, Las contraseñas no coinciden"
+            }else{ //las contraseñas son iguales
+                document.getElementById('errorPwd').innerHTML= "";
+            }
+        }
+        function sinNum(){
+            var x = document.getElementById('sn').checked;
+            if(x){//marcó el checkbox
+                document.getElementById('numero').disabled = true; 
+                document.getElementById('numero').value = "";
+            }else{
+                document.getElementById('numero').disabled = false;
+            }
+        }
+        
+        function valideKey(evt){
+            var code = (evt.which) ? evt.which : evt.KeyCode;
+            
+            if (code == 8){
+                return true;
+                
+            }else if(code=>48 && code<=57){
+                validaTarjeta();
+             return true;
+                
+            }else{
+                return false;
+            }
+            
+        }
+        
+        function validaTarjeta(){
+            var tarj = document.getElementById('card').value;
+            var dig = tarj.substr(0, 1);
+            
+            if(dig.length == 1){
+            
+                switch (dig){
+                    case '4': 
+                        document.getElementById('tarjeta').innerHTML = 
+                                 "<div id=tarjetam></div>";         //"<img width='15%' src='img/visa.png'>";
+                        break;
+                        
+                    case '5':
+                        document.getElementById('tarjeta').innerHTML = 
+                                "<div id=tarjetam></div>";         //"<img width='15%' src='img/mastercard.png'>";
+                        
+                    break;
+                    
+                    default:
+                        document.getElementById('tarjeta').innerHTML = "";
+                }
+                
+            }else
+                document.getElementById('tarjeta').innerHTML = "";
+        }
+        
+      </script>
+      
+      <style>
+          
+          #tarjetam{
+              background: url("img/mastercard.png");
+              background-repeat: no-repeat;
+              background-size: 70px;
+              width: 70px;
+              height: 70px;
+              display: block;
+          }
+      </style>
+
+</head>
+
+<body>
+    <!--getElementById().value se recupera los datos capturados -->
+    <h1>Registro de usuarios</h1>
+    <form action="" method="post">
+    Login: <input type="text" name="login" id="login" required>
+    <br>
+        Password: <input type="password" name="pwd" id="pwd" required onchange="validaPassword()">
+        <br>Password 2: <input type="password" name="pwd2" id="pwd2" onchange="validaPassword()" required>
+        <div id="errorPwd"></div>
+        <br>
+        Direccion: <br>
+        Calle <input type="text" name="calle" id="calle" size="50">
+        <br>
+        Numero <input type="number" name="numero" id="numero" >
+        <input type="checkbox" name="sn" id="sn" onclick="sinNum()"> Sin Numero
+        <br>
+        <!--Colonia
+        Codigo postal
+        Ciudad
+        Estado
+        Pais
+        -->
+        Numero de tarjeta: <input type="password" name="card" id="card" 
+        onkeypress="return valideKey(event);" size="16" maxlength="16"> 
+        <div id="tarjeta"></div>
+
+        <br>
+        <input type="submit" name="Enviar" >
+    </form>
+</body>
+</html>
